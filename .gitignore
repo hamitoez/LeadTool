@@ -1,0 +1,62 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+env/
+.venv/
+
+# Database
+*.db
+*.sqlite3
+
+# Environment
+.env
+.env.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.claude/
+
+# Build
+build/
+dist/
+*.egg-info/
+*.spec
+
+# Logs
+*.log
+logs/
+
+# Cache
+.cache/
+*.cache
+*_cache.json
+*_cache_v2.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Selenium
+chromedriver*
+geckodriver*
+
+# Temporary
+*.tmp
+*.temp
+
+# User Data (CSV with personal leads)
+leads/
+uploads/
+leads.csv
+
+# Distribution binaries (too large)
+distribution/*.zip
+distribution/LeadTool_Windows/LeadTool.exe

@@ -1,0 +1,52 @@
+{
+  "prompts": [
+    {
+      "id": "default_kosmetik",
+      "name": "Standard Kosmetik",
+      "description": "Standard-Prompt für Kosmetikstudios",
+      "system_prompt": "Du bist ein Experte für authentische, persönliche Kommunikation mit Inhabergeführten Kosmetikstudios.",
+      "user_prompt_template": "Schreibe ein kurzes, authentisches Kompliment (max. 4 Sätze) über {studio_name} auf Basis der Google-Rezensionen.\n\nStudio: {studio_name}\nRating: {average_rating}\nReviews: {total_reviews}\nTop Reviews: {review_keywords}\n\nStil: Per DU, persönlich, bodenständig, keine Floskeln.\nVERMEIDE: beeindruckend, maßgeschneidert, perfekt, Wahnsinn, außergewöhnlich\n\nAntworte NUR mit JSON:\n{{\n  \"compliment\": \"Der generierte Text\",\n  \"confidence_score\": 85,\n  \"overstatement_score\": 10,\n  \"has_team\": true\n}}",
+      "target_industries": [
+        "Kosmetikstudio",
+        "Beauty",
+        "Wellness"
+      ],
+      "created_at": "2025-12-03T20:49:11.568661",
+      "is_default": true
+    },
+    {
+      "id": "default_zahnarzt",
+      "name": "Standard Zahnarzt",
+      "description": "Standard-Prompt für Zahnarztpraxen",
+      "system_prompt": "Du bist ein Experte für authentische, persönliche Kommunikation mit Zahnarztpraxen.",
+      "user_prompt_template": "Schreibe ein kurzes, authentisches Kompliment (max. 4 Sätze) über {studio_name} auf Basis der Google-Rezensionen.\n\nPraxis: {studio_name}\nRating: {average_rating}\nReviews: {total_reviews}\nTop Reviews: {review_keywords}\n\nStil: Per DU, persönlich, fachlich, vertrauensvoll.\nVERMEIDE: Übertreibungen, Werbesprech\n\nAntworte NUR mit JSON:\n{{\n  \"compliment\": \"Der generierte Text\",\n  \"confidence_score\": 85,\n  \"overstatement_score\": 10,\n  \"has_team\": true\n}}",
+      "target_industries": [
+        "Zahnarzt",
+        "Kieferorthopäde",
+        "Dental"
+      ],
+      "created_at": "2025-12-03T20:49:11.568669",
+      "is_default": true
+    },
+    {
+      "id": "custom_2",
+      "name": "Mein Custom Prompt",
+      "description": "Schnell-Prompt (manuell eingegeben)",
+      "system_prompt": "Du bist ein Experte für personalisierte Cold Emails und Business-Kommunikation. Erstelle etwas dummes noch damit ich weiß dass dieser prompt funktioniert",
+      "user_prompt_template": "Erstelle ein authentisches Kompliment für {studio_name}.\n\nVerwende folgende Informationen:\n- Durchschnittliche Bewertung: {average_rating}\n- Anzahl Reviews: {total_reviews}\n- Review-Themen: {review_keywords}\n\nAnforderungen:\n- Kurz und prägnant (2-3 Sätze)\n- Authentisch, keine Übertreibungen\n- Fokus auf spezifische Stärken aus den Reviews",
+      "target_industries": [],
+      "created_at": "2025-12-03T20:51:00.548094",
+      "is_default": false
+    },
+    {
+      "id": "custom_3",
+      "name": "Workflow Prompt 22:07",
+      "description": "Komplett-Workflow Prompt",
+      "system_prompt": "Du bist ein Experte für personalisierte Cold Emails und Business-Kommunikation.",
+      "user_prompt_template": "Erstelle ein authentisches Kompliment für {studio_name}.\n\nVerwende folgende Informationen:\n- Durchschnittliche Bewertung: {average_rating}\n- Anzahl Reviews: {total_reviews}\n- Review-Themen: {review_keywords}\n\nAnforderungen:\n- Kurz und prägnant (2-3 Sätze)\n- Authentisch, keine Übertreibungen\n- Fokus auf spezifische Stärken aus den Reviews",
+      "target_industries": [],
+      "created_at": "2025-12-03T21:09:22.621660",
+      "is_default": false
+    }
+  ]
+}

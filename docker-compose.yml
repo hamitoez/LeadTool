@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  leadtool:
+    build: .
+    container_name: leadtool-web
+    ports:
+      - "8501:8501"
+    environment:
+      - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY}
+    volumes:
+      # Datenbank persistent speichern
+      - ./data:/app/data
+      - ./lead_enrichment_v3.db:/app/lead_enrichment_v3.db
+    restart: unless-stopped

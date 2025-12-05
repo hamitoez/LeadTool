@@ -1,0 +1,65 @@
+{
+  "_comment": "API Keys werden aus Umgebungsvariablen geladen. Setze DEEPSEEK_API_KEY, OPENAI_API_KEY etc.",
+  "apis": {
+    "deepseek": {
+      "name": "DeepSeek",
+      "base_url": "https://api.deepseek.com/v1",
+      "models": [
+        "deepseek-chat",
+        "deepseek-coder"
+      ],
+      "default_model": "deepseek-chat",
+      "api_key_env": "DEEPSEEK_API_KEY",
+      "api_key": "",
+      "enabled": true
+    },
+    "openai": {
+      "name": "OpenAI",
+      "base_url": "https://api.openai.com/v1",
+      "models": [
+        "gpt-4",
+        "gpt-4-turbo",
+        "gpt-3.5-turbo"
+      ],
+      "default_model": "gpt-3.5-turbo",
+      "api_key_env": "OPENAI_API_KEY",
+      "api_key": "",
+      "enabled": false
+    },
+    "anthropic": {
+      "name": "Anthropic (Claude)",
+      "base_url": "https://api.anthropic.com/v1",
+      "models": [
+        "claude-3-opus",
+        "claude-3-sonnet",
+        "claude-3-haiku"
+      ],
+      "default_model": "claude-3-sonnet",
+      "api_key_env": "ANTHROPIC_API_KEY",
+      "api_key": "",
+      "enabled": false
+    },
+    "gemini": {
+      "name": "Google Gemini",
+      "base_url": "https://generativelanguage.googleapis.com/v1",
+      "models": [
+        "gemini-pro",
+        "gemini-pro-vision"
+      ],
+      "default_model": "gemini-pro",
+      "api_key_env": "GEMINI_API_KEY",
+      "api_key": "",
+      "enabled": false
+    },
+    "custom": {
+      "name": "Custom API",
+      "base_url": "",
+      "models": [],
+      "default_model": "",
+      "api_key_env": "CUSTOM_API_KEY",
+      "api_key": "",
+      "enabled": false
+    }
+  },
+  "active_api": "deepseek"
+}

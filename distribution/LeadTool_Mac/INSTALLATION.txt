@@ -1,0 +1,64 @@
+========================================
+  LeadTool v4.0 - Mac Installation
+========================================
+
+WICHTIG: macOS blockiert heruntergeladene Dateien!
+
+LÖSUNG - Folge diesen Schritten:
+
+----------------------------------------
+SCHRITT 1: Terminal öffnen
+----------------------------------------
+- Spotlight öffnen (Cmd + Leertaste)
+- "Terminal" eingeben und Enter drücken
+
+----------------------------------------
+SCHRITT 2: Zum Ordner navigieren
+----------------------------------------
+Kopiere diesen Befehl ins Terminal:
+
+cd ~/Downloads/LeadTool_Mac
+
+(Falls der Ordner woanders liegt, passe den Pfad an)
+
+----------------------------------------
+SCHRITT 3: Installation starten
+----------------------------------------
+Kopiere diese 2 Befehle nacheinander:
+
+chmod +x INSTALL_MAC.command
+./INSTALL_MAC.command
+
+----------------------------------------
+SCHRITT 4: API-Key einrichten
+----------------------------------------
+Nach der Installation:
+
+1. Öffne die Datei ".env" mit TextEdit
+2. Trage deinen DeepSeek API-Key ein:
+   DEEPSEEK_API_KEY=dein-key-hier
+3. Speichern
+
+API-Key: https://platform.deepseek.com/
+
+----------------------------------------
+SCHRITT 5: App starten
+----------------------------------------
+Doppelklick auf "LeadTool.command"
+
+Falls Warnung kommt:
+- Rechtsklick auf LeadTool.command
+- "Öffnen" wählen
+- Nochmal "Öffnen" klicken
+
+========================================
+  KURZVERSION (für Erfahrene)
+========================================
+
+Terminal öffnen und ausführen:
+
+cd ~/Downloads/LeadTool_Mac
+chmod +x *.command
+./INSTALL_MAC.command
+
+========================================

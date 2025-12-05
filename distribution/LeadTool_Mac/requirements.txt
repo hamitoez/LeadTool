@@ -1,0 +1,29 @@
+# Lead Enrichment Tool - Dependencies
+# =====================================
+
+# GUI
+customtkinter>=5.2.0
+Pillow>=10.0.0
+
+# Web Requests
+requests>=2.31.0
+
+# Web Scraping
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+selenium>=4.15.0
+webdriver-manager>=4.0.0
+
+# Database
+sqlalchemy>=2.0.0
+
+# Data Processing
+pandas>=2.0.0
+
+# Configuration
+python-dotenv>=1.0.0
+
+# =====================================
+# Für Build (optional):
+# pip install pyinstaller
+# =====================================
