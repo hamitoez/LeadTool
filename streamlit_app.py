@@ -105,8 +105,10 @@ st.markdown("""
 def init_session_state():
     """Initialize session state variables"""
     if 'db' not in st.session_state:
-        # Initialize database
-        db_path = "lead_enrichment_v3.db"
+        # Initialize database - use /app/db in Docker, otherwise local
+        db_dir = "/app/db" if os.path.exists("/app/db") else "."
+        os.makedirs(db_dir, exist_ok=True)
+        db_path = os.path.join(db_dir, "lead_enrichment_v3.db")
         if not os.path.exists(db_path):
             db = DatabaseV3(db_path)
             db.create_all()

@@ -9,7 +9,11 @@ services:
     environment:
       - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY}
     volumes:
-      # Datenbank persistent speichern
-      - ./data:/app/data
-      - ./lead_enrichment_v3.db:/app/lead_enrichment_v3.db
+      # Datenbank persistent speichern (als Verzeichnis, nicht Datei)
+      - leadtool_data:/app/data
+      - leadtool_db:/app/db
     restart: unless-stopped
+
+volumes:
+  leadtool_data:
+  leadtool_db:
