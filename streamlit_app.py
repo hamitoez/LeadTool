@@ -38,62 +38,611 @@ st.set_page_config(
 )
 
 # =====================
-# Custom CSS
+# Custom CSS - Modern Design
 # =====================
 st.markdown("""
 <style>
-    /* Dark Theme Colors */
+    /* ===== IMPORTS ===== */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    /* ===== ROOT VARIABLES ===== */
     :root {
-        --bg-primary: #0f0f1e;
-        --bg-secondary: #1a1a2e;
-        --accent-primary: #3b82f6;
+        --bg-dark: #0a0a0f;
+        --bg-card: #12121a;
+        --bg-card-hover: #1a1a25;
+        --bg-gradient-start: #0a0a0f;
+        --bg-gradient-end: #0f0f1a;
+        --accent-primary: #6366f1;
+        --accent-secondary: #8b5cf6;
+        --accent-tertiary: #a855f7;
         --accent-success: #10b981;
         --accent-warning: #f59e0b;
         --accent-danger: #ef4444;
-        --text-primary: #f1f5f9;
+        --accent-info: #3b82f6;
+        --text-primary: #f8fafc;
         --text-secondary: #94a3b8;
+        --text-muted: #64748b;
+        --border-color: rgba(255, 255, 255, 0.08);
+        --border-glow: rgba(99, 102, 241, 0.3);
+        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+        --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
+        --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
+        --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.15);
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --radius-lg: 16px;
+        --radius-xl: 24px;
+        --transition-fast: 0.15s ease;
+        --transition-normal: 0.25s ease;
+        --transition-slow: 0.4s ease;
     }
 
-    /* Header Styling */
+    /* ===== GLOBAL STYLES ===== */
+    .stApp {
+        background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    /* Hide Streamlit branding */
+    #MainMenu, footer, header {visibility: hidden;}
+    .stDeployButton {display: none;}
+
+    /* ===== MAIN HEADER ===== */
     .main-header {
-        font-size: 2.5rem;
-        font-weight: bold;
-        background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+        font-size: 2.8rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+        letter-spacing: -0.03em;
+        text-shadow: 0 0 80px rgba(99, 102, 241, 0.5);
+    }
+
+    .sub-header {
+        font-size: 1rem;
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+        font-weight: 400;
+    }
+
+    /* ===== GLASSMORPHISM CARDS ===== */
+    .glass-card {
+        background: rgba(18, 18, 26, 0.7);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-lg);
+        padding: 1.5rem;
         margin-bottom: 1rem;
+        transition: all var(--transition-normal);
+        box-shadow: var(--shadow-md);
     }
 
-    /* Card Styling */
-    .stMetric {
-        background-color: #1e293b;
-        padding: 1rem;
-        border-radius: 10px;
+    .glass-card:hover {
+        border-color: var(--border-glow);
+        box-shadow: var(--shadow-glow);
+        transform: translateY(-2px);
     }
 
-    /* Success/Warning/Error boxes */
-    .success-box {
-        padding: 1rem;
-        background-color: #10b98120;
-        border-left: 4px solid #10b981;
-        border-radius: 0 8px 8px 0;
+    /* ===== STAT CARDS ===== */
+    .stat-card {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%);
+        border: 1px solid rgba(99, 102, 241, 0.2);
+        border-radius: var(--radius-lg);
+        padding: 1.25rem;
+        text-align: center;
+        transition: all var(--transition-normal);
     }
 
-    .warning-box {
-        padding: 1rem;
-        background-color: #f59e0b20;
-        border-left: 4px solid #f59e0b;
-        border-radius: 0 8px 8px 0;
+    .stat-card:hover {
+        border-color: var(--accent-primary);
+        box-shadow: 0 0 30px rgba(99, 102, 241, 0.2);
+        transform: translateY(-3px);
     }
 
-    /* Table Styling */
-    .dataframe {
+    .stat-value {
+        font-size: 2rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-weight: 500;
+    }
+
+    /* ===== METRICS OVERRIDE ===== */
+    [data-testid="stMetric"] {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.04) 100%);
+        border: 1px solid rgba(99, 102, 241, 0.15);
+        border-radius: var(--radius-md);
+        padding: 1rem 1.25rem;
+        transition: all var(--transition-normal);
+    }
+
+    [data-testid="stMetric"]:hover {
+        border-color: rgba(99, 102, 241, 0.4);
+        box-shadow: 0 0 25px rgba(99, 102, 241, 0.15);
+    }
+
+    [data-testid="stMetricValue"] {
+        font-size: 1.75rem !important;
+        font-weight: 700 !important;
+        color: var(--text-primary) !important;
+    }
+
+    [data-testid="stMetricLabel"] {
+        font-size: 0.8rem !important;
+        color: var(--text-secondary) !important;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    /* ===== SIDEBAR ===== */
+    [data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #0d0d14 0%, #12121a 100%);
+        border-right: 1px solid var(--border-color);
+    }
+
+    [data-testid="stSidebar"] > div:first-child {
+        padding-top: 2rem;
+    }
+
+    .sidebar-logo {
+        font-size: 1.75rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 0.25rem;
+    }
+
+    .sidebar-subtitle {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        margin-bottom: 1.5rem;
+    }
+
+    /* ===== NAVIGATION RADIO BUTTONS ===== */
+    [data-testid="stSidebar"] .stRadio > div {
+        gap: 0.5rem;
+    }
+
+    [data-testid="stSidebar"] .stRadio > div > label {
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: var(--radius-md);
+        padding: 0.75rem 1rem;
+        margin: 0;
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        font-weight: 500;
+        color: var(--text-secondary);
+    }
+
+    [data-testid="stSidebar"] .stRadio > div > label:hover {
+        background: rgba(99, 102, 241, 0.1);
+        border-color: rgba(99, 102, 241, 0.2);
+        color: var(--text-primary);
+    }
+
+    [data-testid="stSidebar"] .stRadio > div > label[data-checked="true"] {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.1) 100%);
+        border-color: var(--accent-primary);
+        color: var(--text-primary);
+        box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+    }
+
+    /* ===== BUTTONS ===== */
+    .stButton > button {
+        background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+        color: white;
+        border: none;
+        border-radius: var(--radius-md);
+        padding: 0.625rem 1.25rem;
+        font-weight: 600;
+        font-size: 0.875rem;
+        letter-spacing: 0.01em;
+        transition: all var(--transition-normal);
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    }
+
+    .stButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 25px rgba(99, 102, 241, 0.4);
+    }
+
+    .stButton > button:active {
+        transform: translateY(0);
+    }
+
+    /* Secondary buttons */
+    .stButton > button[kind="secondary"] {
+        background: transparent;
+        border: 1px solid var(--border-color);
+        color: var(--text-secondary);
+        box-shadow: none;
+    }
+
+    .stButton > button[kind="secondary"]:hover {
+        border-color: var(--accent-primary);
+        color: var(--text-primary);
+        background: rgba(99, 102, 241, 0.1);
+    }
+
+    /* ===== DOWNLOAD BUTTON ===== */
+    .stDownloadButton > button {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    }
+
+    .stDownloadButton > button:hover {
+        box-shadow: 0 6px 25px rgba(16, 185, 129, 0.4);
+    }
+
+    /* ===== INPUT FIELDS ===== */
+    .stTextInput > div > div > input,
+    .stNumberInput > div > div > input,
+    .stSelectbox > div > div,
+    .stMultiSelect > div > div {
+        background: rgba(18, 18, 26, 0.8) !important;
+        border: 1px solid var(--border-color) !important;
+        border-radius: var(--radius-md) !important;
+        color: var(--text-primary) !important;
+        transition: all var(--transition-fast) !important;
+    }
+
+    .stTextInput > div > div > input:focus,
+    .stNumberInput > div > div > input:focus {
+        border-color: var(--accent-primary) !important;
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15) !important;
+    }
+
+    .stTextInput > label,
+    .stNumberInput > label,
+    .stSelectbox > label,
+    .stMultiSelect > label {
+        color: var(--text-secondary) !important;
+        font-weight: 500 !important;
+        font-size: 0.875rem !important;
+    }
+
+    /* ===== CHECKBOX ===== */
+    .stCheckbox > label {
+        color: var(--text-secondary);
+        font-weight: 400;
+    }
+
+    .stCheckbox > label > span:first-child {
+        background: var(--bg-card) !important;
+        border-color: var(--border-color) !important;
+    }
+
+    /* ===== SLIDER ===== */
+    .stSlider > div > div > div > div {
+        background: var(--accent-primary) !important;
+    }
+
+    /* ===== EXPANDER ===== */
+    .streamlit-expanderHeader {
+        background: rgba(18, 18, 26, 0.6) !important;
+        border: 1px solid var(--border-color) !important;
+        border-radius: var(--radius-md) !important;
+        color: var(--text-primary) !important;
+        font-weight: 600 !important;
+        transition: all var(--transition-fast) !important;
+    }
+
+    .streamlit-expanderHeader:hover {
+        border-color: var(--accent-primary) !important;
+        background: rgba(99, 102, 241, 0.1) !important;
+    }
+
+    .streamlit-expanderContent {
+        background: rgba(18, 18, 26, 0.4) !important;
+        border: 1px solid var(--border-color) !important;
+        border-top: none !important;
+        border-radius: 0 0 var(--radius-md) var(--radius-md) !important;
+    }
+
+    /* ===== DATAFRAME / TABLE ===== */
+    [data-testid="stDataFrame"] {
+        background: rgba(18, 18, 26, 0.6);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+    }
+
+    [data-testid="stDataFrame"] table {
         font-size: 0.85rem;
     }
 
-    /* Sidebar */
-    .css-1d391kg {
-        background-color: #1a1a2e;
+    [data-testid="stDataFrame"] th {
+        background: rgba(99, 102, 241, 0.15) !important;
+        color: var(--text-primary) !important;
+        font-weight: 600 !important;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        letter-spacing: 0.05em;
+    }
+
+    [data-testid="stDataFrame"] td {
+        color: var(--text-secondary) !important;
+        border-color: var(--border-color) !important;
+    }
+
+    [data-testid="stDataFrame"] tr:hover td {
+        background: rgba(99, 102, 241, 0.08) !important;
+        color: var(--text-primary) !important;
+    }
+
+    /* ===== ALERTS / INFO BOXES ===== */
+    .stAlert {
+        background: rgba(18, 18, 26, 0.8) !important;
+        border: 1px solid var(--border-color) !important;
+        border-radius: var(--radius-md) !important;
+        border-left: 4px solid var(--accent-info) !important;
+    }
+
+    [data-testid="stAlert"][data-baseweb="notification"] {
+        background: rgba(18, 18, 26, 0.8) !important;
+    }
+
+    .element-container div[data-testid="stAlert"] > div {
+        color: var(--text-secondary) !important;
+    }
+
+    /* Success */
+    div[data-baseweb="notification"][kind="positive"] {
+        background: rgba(16, 185, 129, 0.1) !important;
+        border-color: rgba(16, 185, 129, 0.3) !important;
+        border-left-color: var(--accent-success) !important;
+    }
+
+    /* Warning */
+    div[data-baseweb="notification"][kind="warning"] {
+        background: rgba(245, 158, 11, 0.1) !important;
+        border-color: rgba(245, 158, 11, 0.3) !important;
+        border-left-color: var(--accent-warning) !important;
+    }
+
+    /* Error */
+    div[data-baseweb="notification"][kind="negative"] {
+        background: rgba(239, 68, 68, 0.1) !important;
+        border-color: rgba(239, 68, 68, 0.3) !important;
+        border-left-color: var(--accent-danger) !important;
+    }
+
+    /* ===== FILE UPLOADER ===== */
+    [data-testid="stFileUploader"] {
+        background: rgba(18, 18, 26, 0.6);
+        border: 2px dashed var(--border-color);
+        border-radius: var(--radius-lg);
+        padding: 2rem;
+        transition: all var(--transition-normal);
+    }
+
+    [data-testid="stFileUploader"]:hover {
+        border-color: var(--accent-primary);
+        background: rgba(99, 102, 241, 0.05);
+    }
+
+    [data-testid="stFileUploader"] section {
+        padding: 0 !important;
+    }
+
+    [data-testid="stFileUploader"] section > div {
+        background: transparent !important;
+    }
+
+    /* ===== PROGRESS BAR ===== */
+    .stProgress > div > div > div {
+        background: linear-gradient(90deg, var(--accent-primary) 0%, var(--accent-secondary) 100%) !important;
+        border-radius: var(--radius-sm);
+    }
+
+    .stProgress > div > div {
+        background: var(--bg-card) !important;
+        border-radius: var(--radius-sm);
+    }
+
+    /* ===== TABS ===== */
+    .stTabs [data-baseweb="tab-list"] {
+        background: transparent;
+        gap: 0.5rem;
+    }
+
+    .stTabs [data-baseweb="tab"] {
+        background: transparent;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        color: var(--text-secondary);
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        transition: all var(--transition-fast);
+    }
+
+    .stTabs [data-baseweb="tab"]:hover {
+        background: rgba(99, 102, 241, 0.1);
+        border-color: rgba(99, 102, 241, 0.3);
+        color: var(--text-primary);
+    }
+
+    .stTabs [aria-selected="true"] {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.1) 100%) !important;
+        border-color: var(--accent-primary) !important;
+        color: var(--text-primary) !important;
+    }
+
+    /* ===== DIVIDER ===== */
+    hr {
+        border: none;
+        height: 1px;
+        background: linear-gradient(90deg, transparent 0%, var(--border-color) 50%, transparent 100%);
+        margin: 2rem 0;
+    }
+
+    /* ===== CUSTOM COMPONENTS ===== */
+    .lead-card {
+        background: linear-gradient(135deg, rgba(18, 18, 26, 0.9) 0%, rgba(18, 18, 26, 0.7) 100%);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-lg);
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        transition: all var(--transition-normal);
+    }
+
+    .lead-card:hover {
+        border-color: var(--accent-primary);
+        box-shadow: var(--shadow-glow);
+        transform: translateY(-2px);
+    }
+
+    .lead-name {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+    }
+
+    .lead-meta {
+        font-size: 0.875rem;
+        color: var(--text-muted);
+    }
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+
+    .status-complete {
+        background: rgba(16, 185, 129, 0.15);
+        color: #34d399;
+        border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .status-pending {
+        background: rgba(245, 158, 11, 0.15);
+        color: #fbbf24;
+        border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .status-missing {
+        background: rgba(239, 68, 68, 0.15);
+        color: #f87171;
+        border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    /* ===== QUICK FILTER BUTTONS ===== */
+    .quick-filter-btn {
+        background: rgba(18, 18, 26, 0.8);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        padding: 0.75rem 1rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        text-align: center;
+    }
+
+    .quick-filter-btn:hover {
+        background: rgba(99, 102, 241, 0.1);
+        border-color: var(--accent-primary);
+        color: var(--text-primary);
+        transform: translateY(-2px);
+    }
+
+    /* ===== SECTION HEADERS ===== */
+    .section-header {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .section-header::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(90deg, var(--border-color) 0%, transparent 100%);
+        margin-left: 1rem;
+    }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: var(--bg-dark);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--border-color);
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--accent-primary);
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+    }
+
+    @keyframes shimmer {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+    }
+
+    .animate-fade-in {
+        animation: fadeIn 0.5s ease forwards;
+    }
+
+    .animate-pulse {
+        animation: pulse 2s ease-in-out infinite;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+        .main-header {
+            font-size: 2rem;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+        }
+
+        .glass-card {
+            padding: 1rem;
+        }
     }
 </style>
 """, unsafe_allow_html=True)
@@ -210,8 +759,15 @@ def export_leads_to_csv(leads):
 def render_sidebar():
     """Render sidebar with navigation"""
     with st.sidebar:
-        st.markdown("## 🚀 LeadTool v4.0")
-        st.markdown("*Web Edition*")
+        # Logo & Branding
+        st.markdown("""
+        <div style="text-align: center; padding: 1rem 0 1.5rem 0;">
+            <div style="font-size: 2.5rem; margin-bottom: 0.25rem;">⚡</div>
+            <div class="sidebar-logo">LeadTool</div>
+            <div class="sidebar-subtitle">Professional Edition</div>
+        </div>
+        """, unsafe_allow_html=True)
+
         st.markdown("---")
 
         # Navigation
@@ -223,7 +779,7 @@ def render_sidebar():
 
         st.markdown("---")
 
-        # Stats
+        # Stats Section
         session = st.session_state.session
         total = session.query(CompanyV3).count()
         with_names = session.query(CompanyV3).filter(
@@ -234,11 +790,52 @@ def render_sidebar():
             CompanyV3.compliment.isnot(None)
         ).count()
 
-        st.markdown("### 📊 Datenbank")
-        col1, col2, col3 = st.columns(3)
-        col1.metric("Total", f"{total:,}")
-        col2.metric("Namen", f"{with_names:,}")
-        col3.metric("Komplimente", f"{with_compliment:,}")
+        # Calculate percentages
+        names_pct = (with_names / total * 100) if total > 0 else 0
+        compliment_pct = (with_compliment / total * 100) if total > 0 else 0
+
+        st.markdown("""
+        <div style="margin-bottom: 0.75rem;">
+            <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: #64748b; margin-bottom: 0.75rem;">
+                📊 Database Overview
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # Custom stat cards
+        st.markdown(f"""
+        <div class="stat-card" style="margin-bottom: 0.75rem;">
+            <div class="stat-value">{total:,}</div>
+            <div class="stat-label">Total Leads</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown(f"""
+            <div class="stat-card">
+                <div class="stat-value" style="font-size: 1.5rem;">{with_names:,}</div>
+                <div class="stat-label">Mit Namen</div>
+                <div style="font-size: 0.7rem; color: #6366f1; margin-top: 0.25rem;">{names_pct:.1f}%</div>
+            </div>
+            """, unsafe_allow_html=True)
+        with col2:
+            st.markdown(f"""
+            <div class="stat-card">
+                <div class="stat-value" style="font-size: 1.5rem;">{with_compliment:,}</div>
+                <div class="stat-label">Komplimente</div>
+                <div style="font-size: 0.7rem; color: #10b981; margin-top: 0.25rem;">{compliment_pct:.1f}%</div>
+            </div>
+            """, unsafe_allow_html=True)
+
+        # Footer
+        st.markdown("""
+        <div style="position: absolute; bottom: 1rem; left: 1rem; right: 1rem; text-align: center;">
+            <div style="font-size: 0.7rem; color: #475569;">
+                Made with 💜 by LeadTool
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
         return page
 
@@ -248,43 +845,54 @@ def render_sidebar():
 # =====================
 def render_filter_page():
     """Render filter and search page"""
-    st.markdown('<h1 class="main-header">🔍 Filter & Suche</h1>', unsafe_allow_html=True)
+    # Page Header
+    st.markdown("""
+    <div class="animate-fade-in">
+        <h1 class="main-header">Filter & Suche</h1>
+        <p class="sub-header">Finde und bearbeite deine Leads mit erweiterten Filteroptionen</p>
+    </div>
+    """, unsafe_allow_html=True)
 
     session = st.session_state.session
 
-    # Filter Section
-    with st.expander("🎯 Filter-Optionen", expanded=True):
-        col1, col2, col3 = st.columns(3)
+    # Filter Section in Glass Card
+    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+    st.markdown('<div class="section-header">🎯 Filter-Optionen</div>', unsafe_allow_html=True)
 
-        with col1:
-            search_text = st.text_input("🔎 Schnellsuche", placeholder="Name oder Website...")
-            min_rating = st.slider("⭐ Min. Rating", 0.0, 5.0, 0.0, 0.5)
+    col1, col2, col3 = st.columns(3)
 
-        with col2:
-            min_reviews = st.number_input("📊 Min. Reviews", min_value=0, value=0)
-            location = st.text_input("📍 Ort", placeholder="Stadt oder PLZ...")
+    with col1:
+        search_text = st.text_input("🔎 Schnellsuche", placeholder="Name oder Website...")
+        min_rating = st.slider("⭐ Min. Rating", 0.0, 5.0, 0.0, 0.5)
 
-        with col3:
-            has_phone = st.checkbox("📱 Nur mit Telefon")
-            has_website = st.checkbox("🌐 Nur mit Website")
-            limit = st.number_input("📋 Max. Ergebnisse", min_value=10, max_value=1000, value=100)
+    with col2:
+        min_reviews = st.number_input("📊 Min. Reviews", min_value=0, value=0)
+        location = st.text_input("📍 Ort", placeholder="Stadt oder PLZ...")
 
-    # Quick Filters
-    st.markdown("### ⚡ Schnellfilter")
+    with col3:
+        has_phone = st.checkbox("📱 Nur mit Telefon")
+        has_website = st.checkbox("🌐 Nur mit Website")
+        limit = st.number_input("📋 Max. Ergebnisse", min_value=10, max_value=1000, value=100)
+
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    # Quick Filters Section
+    st.markdown('<div class="section-header" style="margin-top: 1.5rem;">⚡ Schnellfilter</div>', unsafe_allow_html=True)
+
     qf_col1, qf_col2, qf_col3, qf_col4 = st.columns(4)
 
     quick_filter = None
     with qf_col1:
-        if st.button("✅ Kompletter Workflow", use_container_width=True):
+        if st.button("✅ Komplett", use_container_width=True, help="Leads mit Namen und Kompliment"):
             quick_filter = "complete"
     with qf_col2:
-        if st.button("⚠️ Ohne Namen", use_container_width=True):
+        if st.button("👤 Ohne Namen", use_container_width=True, help="Leads ohne Kontaktperson"):
             quick_filter = "no_names"
     with qf_col3:
-        if st.button("⚠️ Ohne Kompliment", use_container_width=True):
+        if st.button("💬 Ohne Kompliment", use_container_width=True, help="Leads ohne generiertes Kompliment"):
             quick_filter = "no_compliment"
     with qf_col4:
-        if st.button("⭐ Top Rated (4.0+)", use_container_width=True):
+        if st.button("⭐ Top Rated", use_container_width=True, help="Leads mit Rating 4.0+"):
             quick_filter = "top_rated"
 
     # Build Query
@@ -357,9 +965,17 @@ def render_filter_page():
 
     # Results Header
     st.markdown("---")
-    st.markdown(f"### 📋 Ergebnisse ({len(leads)} Leads)")
 
-    # Action Buttons
+    # Results count with badge
+    st.markdown(f"""
+    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+        <div class="section-header" style="margin: 0;">📋 Ergebnisse</div>
+        <span class="status-badge status-complete">{len(leads)} Leads</span>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Action Buttons in glass card
+    st.markdown('<div class="glass-card" style="padding: 1rem;">', unsafe_allow_html=True)
     action_col1, action_col2, action_col3, action_col4 = st.columns(4)
 
     with action_col1:
@@ -384,6 +1000,7 @@ def render_filter_page():
                 mime="text/csv",
                 use_container_width=True
             )
+    st.markdown('</div>', unsafe_allow_html=True)
 
     # Display Results
     if leads:
@@ -394,21 +1011,24 @@ def render_filter_page():
             df,
             use_container_width=True,
             hide_index=True,
+            height=400,
             column_config={
                 "ID": st.column_config.NumberColumn("ID", width="small"),
                 "Name": st.column_config.TextColumn("Name", width="medium"),
                 "Website": st.column_config.LinkColumn("Website", width="medium"),
-                "Rating": st.column_config.TextColumn("Rating", width="small"),
-                "Status": st.column_config.TextColumn("Status", width="small")
+                "Rating": st.column_config.TextColumn("⭐", width="small"),
+                "Reviews": st.column_config.NumberColumn("📊", width="small"),
+                "Status": st.column_config.TextColumn("Status", width="medium")
             }
         )
 
-        # Lead Details Expander
-        st.markdown("### 🔎 Lead-Details")
+        # Lead Details Section
+        st.markdown('<div class="section-header" style="margin-top: 2rem;">🔎 Lead-Details</div>', unsafe_allow_html=True)
         selected_id = st.selectbox(
             "Lead auswählen",
             options=[lead.id for lead in leads],
-            format_func=lambda x: next((f"{l.name} ({l.website})" for l in leads if l.id == x), str(x))
+            format_func=lambda x: next((f"{l.name} ({l.website})" for l in leads if l.id == x), str(x)),
+            label_visibility="collapsed"
         )
 
         if selected_id:
@@ -416,60 +1036,115 @@ def render_filter_page():
             if selected_lead:
                 render_lead_details(selected_lead)
     else:
-        st.info("🔍 Keine Leads gefunden. Passe die Filter an oder importiere neue Leads.")
+        st.markdown("""
+        <div class="glass-card" style="text-align: center; padding: 3rem;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🔍</div>
+            <div style="font-size: 1.125rem; color: #f8fafc; margin-bottom: 0.5rem;">Keine Leads gefunden</div>
+            <div style="color: #64748b;">Passe die Filter an oder importiere neue Leads über CSV Upload</div>
+        </div>
+        """, unsafe_allow_html=True)
 
 
 def render_lead_details(lead):
     """Render lead details"""
-    with st.expander(f"📋 Details: {lead.name}", expanded=True):
-        col1, col2 = st.columns(2)
+    # Status badges
+    has_names = lead.first_name and lead.last_name
+    has_compliment = lead.compliment
 
-        with col1:
-            st.markdown("**🏢 Unternehmen**")
-            st.write(f"**Name:** {lead.name or '-'}")
-            st.write(f"**Website:** {lead.website or '-'}")
-            st.write(f"**Telefon:** {lead.phone or '-'}")
-            st.write(f"**Kategorie:** {lead.main_category or '-'}")
+    status_class = "status-complete" if (has_names and has_compliment) else "status-pending" if has_names or has_compliment else "status-missing"
+    status_text = "Komplett" if (has_names and has_compliment) else "In Bearbeitung" if has_names or has_compliment else "Offen"
 
-            st.markdown("**📍 Adresse**")
-            st.write(f"{lead.address or '-'}")
-            st.write(f"{lead.zip_code or ''} {lead.city or ''}")
+    st.markdown(f"""
+    <div class="lead-card">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+            <div>
+                <div class="lead-name">{lead.name or 'Unbekannt'}</div>
+                <div class="lead-meta">{lead.website or 'Keine Website'}</div>
+            </div>
+            <span class="status-badge {status_class}">{status_text}</span>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
-        with col2:
-            st.markdown("**👤 Kontaktperson**")
-            st.write(f"**Vorname:** {lead.first_name or '-'}")
-            st.write(f"**Nachname:** {lead.last_name or '-'}")
-            st.write(f"**E-Mail:** {lead.email or '-'}")
+    col1, col2 = st.columns(2)
 
-            st.markdown("**⭐ Bewertung**")
-            st.write(f"**Rating:** {lead.rating:.1f}" if lead.rating else "Kein Rating")
-            st.write(f"**Reviews:** {lead.review_count or 0}")
+    with col1:
+        st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+        st.markdown("##### 🏢 Unternehmen")
+        st.markdown(f"""
+        <div style="display: grid; gap: 0.5rem; font-size: 0.9rem;">
+            <div><span style="color: #64748b;">Name:</span> <span style="color: #f8fafc;">{lead.name or '-'}</span></div>
+            <div><span style="color: #64748b;">Website:</span> <span style="color: #6366f1;">{lead.website or '-'}</span></div>
+            <div><span style="color: #64748b;">Telefon:</span> <span style="color: #f8fafc;">{lead.phone or '-'}</span></div>
+            <div><span style="color: #64748b;">Kategorie:</span> <span style="color: #f8fafc;">{lead.main_category or '-'}</span></div>
+        </div>
+        """, unsafe_allow_html=True)
 
-        # Compliment
-        if lead.compliment:
-            st.markdown("**💬 Kompliment**")
-            st.info(lead.compliment)
+        st.markdown("##### 📍 Adresse")
+        st.markdown(f"""
+        <div style="font-size: 0.9rem; color: #94a3b8;">
+            {lead.address or '-'}<br>
+            {lead.zip_code or ''} {lead.city or ''}
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
 
-        # Review Keywords
-        if lead.review_keywords:
-            st.markdown("**📝 Review-Keywords**")
-            st.text_area("Keywords", lead.review_keywords, height=100, disabled=True)
+    with col2:
+        st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+        st.markdown("##### 👤 Kontaktperson")
+        st.markdown(f"""
+        <div style="display: grid; gap: 0.5rem; font-size: 0.9rem;">
+            <div><span style="color: #64748b;">Vorname:</span> <span style="color: #f8fafc;">{lead.first_name or '-'}</span></div>
+            <div><span style="color: #64748b;">Nachname:</span> <span style="color: #f8fafc;">{lead.last_name or '-'}</span></div>
+            <div><span style="color: #64748b;">E-Mail:</span> <span style="color: #6366f1;">{lead.email or '-'}</span></div>
+        </div>
+        """, unsafe_allow_html=True)
 
-        # Actions
-        st.markdown("---")
-        action_col1, action_col2, action_col3 = st.columns(3)
+        st.markdown("##### ⭐ Bewertung")
+        rating_display = f"{lead.rating:.1f}" if lead.rating else "-"
+        rating_stars = "⭐" * int(lead.rating) if lead.rating else ""
+        st.markdown(f"""
+        <div style="display: flex; gap: 1rem; align-items: center;">
+            <div style="font-size: 2rem; font-weight: 700; color: #fbbf24;">{rating_display}</div>
+            <div>
+                <div style="color: #fbbf24;">{rating_stars}</div>
+                <div style="font-size: 0.8rem; color: #64748b;">{lead.review_count or 0} Reviews</div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
 
-        with action_col1:
-            if st.button("📇 Kontakte scrapen", key=f"scrape_{lead.id}"):
-                scrape_single_contact(lead)
+    # Compliment Section
+    if lead.compliment:
+        st.markdown('<div class="glass-card" style="border-left: 3px solid #6366f1;">', unsafe_allow_html=True)
+        st.markdown("##### 💬 Generiertes Kompliment")
+        st.markdown(f"""
+        <div style="font-style: italic; color: #e2e8f0; line-height: 1.6;">
+            "{lead.compliment}"
+        </div>
+        """, unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
 
-        with action_col2:
-            if st.button("💬 Kompliment generieren", key=f"gen_{lead.id}"):
-                generate_single_compliment(lead)
+    # Review Keywords
+    if lead.review_keywords:
+        with st.expander("📝 Review-Keywords"):
+            st.text_area("Keywords", lead.review_keywords, height=100, disabled=True, label_visibility="collapsed")
 
-        with action_col3:
-            if st.button("🗑️ Kompliment löschen", key=f"del_{lead.id}"):
-                delete_compliment(lead)
+    # Actions
+    st.markdown("---")
+    action_col1, action_col2, action_col3 = st.columns(3)
+
+    with action_col1:
+        if st.button("📇 Kontakte scrapen", key=f"scrape_{lead.id}", use_container_width=True):
+            scrape_single_contact(lead)
+
+    with action_col2:
+        if st.button("💬 Kompliment generieren", key=f"gen_{lead.id}", use_container_width=True):
+            generate_single_compliment(lead)
+
+    with action_col3:
+        if st.button("🗑️ Löschen", key=f"del_{lead.id}", use_container_width=True):
+            delete_compliment(lead)
 
 
 def scrape_single_contact(lead):
@@ -631,37 +1306,73 @@ def generate_compliments_bulk(leads):
 # =====================
 def render_upload_page():
     """Render CSV upload page"""
-    st.markdown('<h1 class="main-header">📤 CSV Upload</h1>', unsafe_allow_html=True)
+    st.markdown("""
+    <div class="animate-fade-in">
+        <h1 class="main-header">CSV Upload</h1>
+        <p class="sub-header">Importiere neue Leads aus CSV-Dateien in deine Datenbank</p>
+    </div>
+    """, unsafe_allow_html=True)
 
-    st.info("""
-    💡 **Tipp:** Du kannst CSV-Dateien von Google Maps Scraper oder anderen Quellen hochladen.
-    Die CSV sollte mindestens eine **'website'** Spalte enthalten.
-    """)
+    # Info Card
+    st.markdown("""
+    <div class="glass-card" style="border-left: 3px solid #3b82f6;">
+        <div style="display: flex; gap: 1rem; align-items: flex-start;">
+            <div style="font-size: 1.5rem;">💡</div>
+            <div>
+                <div style="font-weight: 600; color: #f8fafc; margin-bottom: 0.25rem;">Tipp</div>
+                <div style="color: #94a3b8; font-size: 0.9rem;">
+                    Du kannst CSV-Dateien von Google Maps Scraper oder anderen Quellen hochladen.
+                    Die CSV sollte mindestens eine <code style="background: rgba(99, 102, 241, 0.2); padding: 0.125rem 0.375rem; border-radius: 4px; color: #a5b4fc;">website</code> Spalte enthalten.
+                </div>
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Upload area
+    st.markdown('<div class="section-header" style="margin-top: 1.5rem;">📁 Datei auswählen</div>', unsafe_allow_html=True)
 
     uploaded_file = st.file_uploader(
         "CSV-Datei auswählen",
         type=['csv'],
-        help="Unterstützte Spalten: name, website, phone, address, city, rating, reviews, review_keywords, etc."
+        help="Unterstützte Spalten: name, website, phone, address, city, rating, reviews, review_keywords, etc.",
+        label_visibility="collapsed"
     )
 
     if uploaded_file:
         try:
             df = pd.read_csv(uploaded_file, encoding='utf-8-sig')
 
-            st.success(f"✅ {len(df)} Zeilen gefunden")
+            st.markdown(f"""
+            <div class="glass-card" style="border-left: 3px solid #10b981;">
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <span style="font-size: 1.25rem;">✅</span>
+                    <span style="color: #10b981; font-weight: 600;">{len(df)} Zeilen gefunden</span>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
 
             # Check for website column
             if 'website' not in df.columns:
-                st.error("❌ Die CSV-Datei muss eine 'website' Spalte enthalten!")
+                st.error("Die CSV-Datei muss eine 'website' Spalte enthalten!")
                 return
 
             # Preview
-            st.markdown("### 📋 Vorschau")
-            st.dataframe(df.head(10), use_container_width=True)
+            st.markdown('<div class="section-header">📋 Vorschau</div>', unsafe_allow_html=True)
+            st.dataframe(df.head(10), use_container_width=True, height=300)
 
-            st.markdown(f"**Spalten:** {', '.join(df.columns)}")
+            # Column tags
+            st.markdown(f"""
+            <div style="margin: 1rem 0;">
+                <span style="color: #64748b; font-size: 0.8rem;">Spalten:</span>
+                {''.join([f'<span style="background: rgba(99, 102, 241, 0.2); color: #a5b4fc; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; margin: 0.25rem;">{col}</span>' for col in df.columns])}
+            </div>
+            """, unsafe_allow_html=True)
 
-            # Import options
+            # Import options in glass card
+            st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+            st.markdown("##### ⚙️ Import-Optionen")
+
             col1, col2 = st.columns(2)
 
             with col1:
@@ -670,15 +1381,17 @@ def render_upload_page():
             with col2:
                 skip_existing = st.checkbox("⏭️ Existierende überspringen", value=True)
 
-            if st.button("✅ Importieren", type="primary", use_container_width=True):
+            st.markdown('</div>', unsafe_allow_html=True)
+
+            if st.button("🚀 Importieren", type="primary", use_container_width=True):
                 import_csv(df, auto_scrape, skip_existing)
 
         except Exception as e:
-            st.error(f"❌ Fehler beim Lesen der CSV: {str(e)}")
+            st.error(f"Fehler beim Lesen der CSV: {str(e)}")
 
-    # Database Stats
+    # Database Stats Section
     st.markdown("---")
-    st.markdown("### 📊 Datenbank-Status")
+    st.markdown('<div class="section-header">📊 Datenbank-Status</div>', unsafe_allow_html=True)
 
     session = st.session_state.session
     total = session.query(CompanyV3).count()
@@ -778,20 +1491,41 @@ def import_csv(df, auto_scrape=False, skip_existing=True):
 # =====================
 def render_prompts_page():
     """Render prompts management page"""
-    st.markdown('<h1 class="main-header">💬 Prompt Templates</h1>', unsafe_allow_html=True)
+    st.markdown("""
+    <div class="animate-fade-in">
+        <h1 class="main-header">Prompt Templates</h1>
+        <p class="sub-header">Verwalte und passe deine Prompt-Templates für die KI-Generierung an</p>
+    </div>
+    """, unsafe_allow_html=True)
 
-    st.info("""
-    💡 Hier kannst du Prompt-Templates für die Kompliment-Generierung verwalten.
-    Jeder Prompt kann individuell angepasst werden.
-    """)
+    st.markdown("""
+    <div class="glass-card" style="border-left: 3px solid #8b5cf6;">
+        <div style="display: flex; gap: 1rem; align-items: flex-start;">
+            <div style="font-size: 1.5rem;">🎨</div>
+            <div>
+                <div style="font-weight: 600; color: #f8fafc; margin-bottom: 0.25rem;">Prompt-Vorlagen</div>
+                <div style="color: #94a3b8; font-size: 0.9rem;">
+                    Hier kannst du Prompt-Templates für die Kompliment-Generierung verwalten.
+                    Jeder Prompt kann individuell für verschiedene Anwendungsfälle angepasst werden.
+                </div>
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
     # Load prompts
     prompts_data = st.session_state.prompt_manager.prompts.get('prompts', [])
 
+    st.markdown('<div class="section-header" style="margin-top: 1.5rem;">📝 Gespeicherte Prompts</div>', unsafe_allow_html=True)
+
     for prompt in prompts_data:
         with st.expander(f"📝 {prompt.get('name', 'Unnamed')}", expanded=False):
-            st.markdown(f"**ID:** `{prompt.get('id', 'N/A')}`")
-            st.markdown(f"**Beschreibung:** {prompt.get('description', '-')}")
+            st.markdown(f"""
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                <span style="background: rgba(99, 102, 241, 0.2); color: #a5b4fc; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">ID: {prompt.get('id', 'N/A')}</span>
+            </div>
+            <div style="color: #94a3b8; margin-bottom: 1rem;">{prompt.get('description', '-')}</div>
+            """, unsafe_allow_html=True)
 
             st.markdown("**System Prompt:**")
             st.text_area(
@@ -799,7 +1533,8 @@ def render_prompts_page():
                 prompt.get('system_prompt', ''),
                 height=100,
                 key=f"sys_{prompt.get('id')}",
-                disabled=True
+                disabled=True,
+                label_visibility="collapsed"
             )
 
             st.markdown("**User Prompt Template:**")
@@ -808,24 +1543,57 @@ def render_prompts_page():
                 prompt.get('user_prompt_template', ''),
                 height=150,
                 key=f"user_{prompt.get('id')}",
-                disabled=True
+                disabled=True,
+                label_visibility="collapsed"
             )
 
     # Placeholder info
     st.markdown("---")
-    st.markdown("### ✏️ Custom Prompt erstellen")
-    st.info("""
-    **Verfügbare Platzhalter:**
-    - `{name}` - Firmenname
-    - `{rating}` - Google Rating
-    - `{reviews}` - Anzahl Reviews
-    - `{review_keywords}` - Extrahierte Keywords aus Reviews
-    - `{category}` - Hauptkategorie
-    - `{city}` - Stadt
-    - `{first_name}` - Vorname
-    - `{last_name}` - Nachname
-    - `{description}` - Firmenbeschreibung
-    """)
+    st.markdown('<div class="section-header">✏️ Custom Prompt erstellen</div>', unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="glass-card">
+        <div style="font-weight: 600; color: #f8fafc; margin-bottom: 1rem;">📌 Verfügbare Platzhalter</div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;">
+            <div style="background: rgba(99, 102, 241, 0.1); padding: 0.5rem; border-radius: 8px; text-align: center;">
+                <code style="color: #a5b4fc;">{name}</code>
+                <div style="font-size: 0.7rem; color: #64748b; margin-top: 0.25rem;">Firmenname</div>
+            </div>
+            <div style="background: rgba(99, 102, 241, 0.1); padding: 0.5rem; border-radius: 8px; text-align: center;">
+                <code style="color: #a5b4fc;">{rating}</code>
+                <div style="font-size: 0.7rem; color: #64748b; margin-top: 0.25rem;">Google Rating</div>
+            </div>
+            <div style="background: rgba(99, 102, 241, 0.1); padding: 0.5rem; border-radius: 8px; text-align: center;">
+                <code style="color: #a5b4fc;">{reviews}</code>
+                <div style="font-size: 0.7rem; color: #64748b; margin-top: 0.25rem;">Anzahl Reviews</div>
+            </div>
+            <div style="background: rgba(99, 102, 241, 0.1); padding: 0.5rem; border-radius: 8px; text-align: center;">
+                <code style="color: #a5b4fc;">{review_keywords}</code>
+                <div style="font-size: 0.7rem; color: #64748b; margin-top: 0.25rem;">Keywords</div>
+            </div>
+            <div style="background: rgba(99, 102, 241, 0.1); padding: 0.5rem; border-radius: 8px; text-align: center;">
+                <code style="color: #a5b4fc;">{category}</code>
+                <div style="font-size: 0.7rem; color: #64748b; margin-top: 0.25rem;">Hauptkategorie</div>
+            </div>
+            <div style="background: rgba(99, 102, 241, 0.1); padding: 0.5rem; border-radius: 8px; text-align: center;">
+                <code style="color: #a5b4fc;">{city}</code>
+                <div style="font-size: 0.7rem; color: #64748b; margin-top: 0.25rem;">Stadt</div>
+            </div>
+            <div style="background: rgba(99, 102, 241, 0.1); padding: 0.5rem; border-radius: 8px; text-align: center;">
+                <code style="color: #a5b4fc;">{first_name}</code>
+                <div style="font-size: 0.7rem; color: #64748b; margin-top: 0.25rem;">Vorname</div>
+            </div>
+            <div style="background: rgba(99, 102, 241, 0.1); padding: 0.5rem; border-radius: 8px; text-align: center;">
+                <code style="color: #a5b4fc;">{last_name}</code>
+                <div style="font-size: 0.7rem; color: #64748b; margin-top: 0.25rem;">Nachname</div>
+            </div>
+            <div style="background: rgba(99, 102, 241, 0.1); padding: 0.5rem; border-radius: 8px; text-align: center;">
+                <code style="color: #a5b4fc;">{description}</code>
+                <div style="font-size: 0.7rem; color: #64748b; margin-top: 0.25rem;">Beschreibung</div>
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
 
 # =====================
@@ -833,12 +1601,12 @@ def render_prompts_page():
 # =====================
 def render_api_page():
     """Render API configuration page"""
-    st.markdown('<h1 class="main-header">🤖 API Konfiguration</h1>', unsafe_allow_html=True)
-
-    st.info("""
-    💡 Konfiguriere hier deine API-Keys für verschiedene LLM-Provider.
-    Der API-Key sollte in der `.env` Datei gespeichert werden.
-    """)
+    st.markdown("""
+    <div class="animate-fade-in">
+        <h1 class="main-header">API Konfiguration</h1>
+        <p class="sub-header">Verwalte deine API-Keys für KI-gestützte Funktionen</p>
+    </div>
+    """, unsafe_allow_html=True)
 
     # Load config
     try:
@@ -849,20 +1617,52 @@ def render_api_page():
 
     current_api = api_config.get('active_api', 'deepseek')
 
-    st.success(f"✅ Aktuell aktiv: **{current_api.upper()}**")
+    # Current API Status Card
+    st.markdown(f"""
+    <div class="glass-card" style="border-left: 3px solid #10b981;">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+            <div>
+                <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: #64748b; margin-bottom: 0.25rem;">Aktiver Provider</div>
+                <div style="font-size: 1.5rem; font-weight: 700; color: #f8fafc;">{current_api.upper()}</div>
+            </div>
+            <div style="font-size: 2.5rem;">🤖</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
     # API Selection
+    st.markdown('<div class="section-header" style="margin-top: 1.5rem;">🔌 Provider auswählen</div>', unsafe_allow_html=True)
+
     api_providers = ['deepseek', 'openai', 'anthropic', 'groq']
+    api_icons = {'deepseek': '🔮', 'openai': '🧠', 'anthropic': '🎭', 'groq': '⚡'}
+
+    col1, col2, col3, col4 = st.columns(4)
+    cols = [col1, col2, col3, col4]
+
+    for i, provider in enumerate(api_providers):
+        with cols[i]:
+            is_active = provider == current_api
+            border_color = "#10b981" if is_active else "rgba(255,255,255,0.08)"
+            bg_color = "rgba(16, 185, 129, 0.1)" if is_active else "rgba(18, 18, 26, 0.6)"
+
+            st.markdown(f"""
+            <div style="background: {bg_color}; border: 1px solid {border_color}; border-radius: 12px; padding: 1rem; text-align: center; cursor: pointer;">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">{api_icons[provider]}</div>
+                <div style="font-weight: 600; color: #f8fafc;">{provider.upper()}</div>
+                {'<div style="font-size: 0.7rem; color: #10b981; margin-top: 0.25rem;">✓ Aktiv</div>' if is_active else ''}
+            </div>
+            """, unsafe_allow_html=True)
 
     selected_api = st.selectbox(
-        "API Provider auswählen",
+        "API Provider",
         api_providers,
-        index=api_providers.index(current_api) if current_api in api_providers else 0
+        index=api_providers.index(current_api) if current_api in api_providers else 0,
+        label_visibility="collapsed"
     )
 
     # Environment variable info
     st.markdown("---")
-    st.markdown("### 🔑 API Key Konfiguration")
+    st.markdown('<div class="section-header">🔑 API Key Status</div>', unsafe_allow_html=True)
 
     env_vars = {
         'deepseek': 'DEEPSEEK_API_KEY',
@@ -874,28 +1674,42 @@ def render_api_page():
     env_var = env_vars.get(selected_api, 'API_KEY')
     current_key = os.environ.get(env_var, '')
 
-    st.markdown(f"""
-    **Umgebungsvariable:** `{env_var}`
-
-    **Status:** {'✅ Konfiguriert' if current_key else '❌ Nicht konfiguriert'}
-    """)
-
-    if not current_key:
-        st.warning(f"""
-        ⚠️ API Key nicht gefunden!
-
-        Füge folgende Zeile zu deiner `.env` Datei hinzu:
-        ```
-        {env_var}=dein-api-key-hier
-        ```
-        """)
+    if current_key:
+        st.markdown(f"""
+        <div class="glass-card" style="border-left: 3px solid #10b981;">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="font-size: 1.5rem;">✅</div>
+                <div>
+                    <div style="font-weight: 600; color: #10b981;">API Key konfiguriert</div>
+                    <div style="font-size: 0.85rem; color: #64748b;"><code>{env_var}</code></div>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    else:
+        st.markdown(f"""
+        <div class="glass-card" style="border-left: 3px solid #f59e0b;">
+            <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                <div style="font-size: 1.5rem;">⚠️</div>
+                <div>
+                    <div style="font-weight: 600; color: #f59e0b; margin-bottom: 0.5rem;">API Key nicht gefunden</div>
+                    <div style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 0.75rem;">
+                        Füge folgende Zeile zu deiner <code style="background: rgba(99, 102, 241, 0.2); padding: 0.125rem 0.375rem; border-radius: 4px;">.env</code> Datei hinzu:
+                    </div>
+                    <div style="background: rgba(0,0,0,0.3); padding: 0.75rem; border-radius: 8px; font-family: monospace; color: #a5b4fc;">
+                        {env_var}=dein-api-key-hier
+                    </div>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
     # Save button
-    if st.button("💾 Als aktiv setzen", type="primary"):
+    if st.button("💾 Als aktiv setzen", type="primary", use_container_width=True):
         api_config['active_api'] = selected_api
         with open('api_config.json', 'w', encoding='utf-8') as f:
             json.dump(api_config, f, indent=2)
-        st.success(f"✅ {selected_api.upper()} als aktiv gesetzt!")
+        st.success(f"{selected_api.upper()} als aktiv gesetzt!")
         st.rerun()
 
 
@@ -904,12 +1718,17 @@ def render_api_page():
 # =====================
 def render_settings_page():
     """Render settings page"""
-    st.markdown('<h1 class="main-header">⚙️ Einstellungen</h1>', unsafe_allow_html=True)
+    st.markdown("""
+    <div class="animate-fade-in">
+        <h1 class="main-header">Einstellungen</h1>
+        <p class="sub-header">Verwalte deine Datenbank und Systemeinstellungen</p>
+    </div>
+    """, unsafe_allow_html=True)
 
     session = st.session_state.session
 
-    # Database Stats
-    st.markdown("### 🗄️ Datenbank")
+    # Database Stats Section
+    st.markdown('<div class="section-header">🗄️ Datenbank-Übersicht</div>', unsafe_allow_html=True)
 
     total = session.query(CompanyV3).count()
     with_names = session.query(CompanyV3).filter(
@@ -918,45 +1737,63 @@ def render_settings_page():
     with_compliment = session.query(CompanyV3).filter(
         CompanyV3.compliment.isnot(None)
     ).count()
+    with_website = session.query(CompanyV3).filter(
+        CompanyV3.website.isnot(None)
+    ).count()
 
-    col1, col2, col3 = st.columns(3)
-    col1.metric("Total Leads", f"{total:,}")
-    col2.metric("Mit Namen", f"{with_names:,}")
-    col3.metric("Mit Kompliment", f"{with_compliment:,}")
-
-    st.markdown("---")
-
-    # Danger Zone
-    st.markdown("### ⚠️ Gefahrenzone")
-
-    col1, col2 = st.columns(2)
+    # Stat cards in a row
+    col1, col2, col3, col4 = st.columns(4)
 
     with col1:
-        if st.button("🗑️ Alle Komplimente löschen", type="secondary"):
-            if st.checkbox("Ja, ich bin sicher", key="confirm_delete_compliments"):
-                session.query(CompanyV3).update({
-                    CompanyV3.compliment: None,
-                    CompanyV3.confidence_score: None,
-                    CompanyV3.compliment_generated_at: None
-                })
-                session.commit()
-                st.success("✅ Alle Komplimente gelöscht!")
-                st.rerun()
+        st.markdown(f"""
+        <div class="stat-card">
+            <div class="stat-value">{total:,}</div>
+            <div class="stat-label">Total Leads</div>
+        </div>
+        """, unsafe_allow_html=True)
 
     with col2:
-        if st.button("💀 Alle Leads löschen", type="secondary"):
-            if st.checkbox("Ja, ich bin sicher (ALLE DATEN WERDEN GELÖSCHT)", key="confirm_delete_all"):
-                session.query(CompanyV3).delete()
-                session.commit()
-                st.success("✅ Alle Leads gelöscht!")
-                st.rerun()
+        st.markdown(f"""
+        <div class="stat-card">
+            <div class="stat-value">{with_names:,}</div>
+            <div class="stat-label">Mit Namen</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col3:
+        st.markdown(f"""
+        <div class="stat-card">
+            <div class="stat-value">{with_compliment:,}</div>
+            <div class="stat-label">Mit Kompliment</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col4:
+        st.markdown(f"""
+        <div class="stat-card">
+            <div class="stat-value">{with_website:,}</div>
+            <div class="stat-label">Mit Website</div>
+        </div>
+        """, unsafe_allow_html=True)
 
     st.markdown("---")
 
-    # Export all
-    st.markdown("### 📥 Komplett-Export")
+    # Export Section
+    st.markdown('<div class="section-header">📥 Daten-Export</div>', unsafe_allow_html=True)
 
-    if st.button("📥 Alle Leads als CSV exportieren"):
+    st.markdown("""
+    <div class="glass-card">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+            <div style="font-size: 2rem;">💾</div>
+            <div>
+                <div style="font-weight: 600; color: #f8fafc;">Komplett-Export</div>
+                <div style="font-size: 0.85rem; color: #64748b;">Exportiere alle Leads als CSV-Datei</div>
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    if st.button("📥 Alle Leads als CSV exportieren", use_container_width=True):
         all_leads = session.query(CompanyV3).all()
         if all_leads:
             csv_data = export_leads_to_csv(all_leads)
@@ -964,10 +1801,60 @@ def render_settings_page():
                 label="💾 Download starten",
                 data=csv_data,
                 file_name=f"all_leads_{datetime.now().strftime('%Y%m%d_%H%M')}.csv",
-                mime="text/csv"
+                mime="text/csv",
+                use_container_width=True
             )
         else:
             st.warning("Keine Leads zum Exportieren vorhanden.")
+
+    st.markdown("---")
+
+    # Danger Zone
+    st.markdown('<div class="section-header" style="color: #ef4444;">⚠️ Gefahrenzone</div>', unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="glass-card" style="border: 1px solid rgba(239, 68, 68, 0.3); background: rgba(239, 68, 68, 0.05);">
+        <div style="font-size: 0.85rem; color: #f87171; margin-bottom: 1rem;">
+            ⚠️ Diese Aktionen können nicht rückgängig gemacht werden. Bitte mit Vorsicht verwenden.
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.markdown("""
+        <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 12px; padding: 1rem; margin-bottom: 0.5rem;">
+            <div style="font-weight: 600; color: #f8fafc; margin-bottom: 0.25rem;">🗑️ Komplimente löschen</div>
+            <div style="font-size: 0.8rem; color: #64748b;">Entfernt alle generierten Komplimente</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        confirm_compliments = st.checkbox("Ja, ich bin sicher", key="confirm_delete_compliments")
+        if st.button("🗑️ Alle Komplimente löschen", use_container_width=True, disabled=not confirm_compliments):
+            session.query(CompanyV3).update({
+                CompanyV3.compliment: None,
+                CompanyV3.confidence_score: None,
+                CompanyV3.compliment_generated_at: None
+            })
+            session.commit()
+            st.success("Alle Komplimente gelöscht!")
+            st.rerun()
+
+    with col2:
+        st.markdown("""
+        <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 12px; padding: 1rem; margin-bottom: 0.5rem;">
+            <div style="font-weight: 600; color: #f8fafc; margin-bottom: 0.25rem;">💀 Alle Leads löschen</div>
+            <div style="font-size: 0.8rem; color: #64748b;">Löscht die gesamte Datenbank</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        confirm_all = st.checkbox("Ja, ich bin sicher (ALLE DATEN)", key="confirm_delete_all")
+        if st.button("💀 Alle Leads löschen", use_container_width=True, disabled=not confirm_all):
+            session.query(CompanyV3).delete()
+            session.commit()
+            st.success("Alle Leads gelöscht!")
+            st.rerun()
 
 
 # =====================
